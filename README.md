@@ -3,9 +3,9 @@
 ### Description
 Backend portfolio project that displays all my backend experience in just 1 project 
 
-- Authentication and Authorization
-- CRUD / REST API
-- Microservices
+1. Authentication and Authorization
+2. CRUD / REST API
+3. Microservices
 
 ## Getting Started
 
