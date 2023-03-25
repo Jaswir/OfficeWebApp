@@ -1,11 +1,6 @@
 version: '3.4'
 
 services:
-    employeecrud_service:
-        image: ${DOCKER_REGISTRY-}employeecrudservice
-        build:
-            context: .
-            dockerfile: EmployeeCrud_Service/Dockerfile
 
     login_service:
         image: ${DOCKER_REGISTRY-}loginservice
@@ -14,12 +9,37 @@ services:
             dockerfile: Login_Service/Dockerfile
         ports:
             - "5000:80"
+        depends_on: 
+            - mssql-login-db
+        
+    employeecrud_service:
+        image: ${DOCKER_REGISTRY-}employeecrudservice
+        build:
+            context: .
+            dockerfile: EmployeeCrud_Service/Dockerfile
+        ports:
+            - "5100:80"
+            - "5101:443"
 
-    sql-server-db2 :
-        container_name: sql-server-db2
+        depends_on: 
+            - mssql-employees-db 
+
+    mssql-employees-db :
+        container_name: mssql-employees-db 
         image: mcr.microsoft.com/mssql/server:2022-latest
         ports:                  
-            - "1433:1433" 
+            - "4000:1433" 
+
+        environment:
+            MSSQL_SA_PASSWORD: "Pa$$_w0rd"
+            ACCEPT_EULA: "Y"
+            MSSQL_PID: "Express"
+
+    mssql-login-db :
+        container_name: mssql-login-db
+        image: mcr.microsoft.com/mssql/server:2022-latest
+        ports:                  
+            - "4001:1433" 
 
         environment:
             MSSQL_SA_PASSWORD: "Pa$$_w0rd"

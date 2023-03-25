@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using EmployeeCrud_Service.Models;
+using System.Security.Claims;
 
 namespace EmployeeCrud_Service.Controllers
 {
@@ -11,13 +12,17 @@ namespace EmployeeCrud_Service.Controllers
         public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
-          
-         
+
+
         }
 
 
         public IActionResult Index()
         {
+            ClaimsPrincipal claimUser = HttpContext.User;
+            bool loggedIn = claimUser.Identity.IsAuthenticated;
+
+            int x = 5;
             return View();
         }
 

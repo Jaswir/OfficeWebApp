@@ -8,7 +8,7 @@
       "composeLaunchUrl": "{Scheme}://localhost:{ServicePort}",
       "serviceActions": {
         "employeecrud_service": "StartDebugging",
-        "sql-server-db2": "StartWithoutDebugging"
+        "login_service": "StartDebugging"
       }
     }
   }

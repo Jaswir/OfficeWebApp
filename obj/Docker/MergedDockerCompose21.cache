@@ -4,32 +4,18 @@ services:
     build:
       context: C:\Users\Jaswir Raghoe\Documents\Microservices\OfficeWebApp
       dockerfile: EmployeeCrud_Service/Dockerfile
-    environment:
-      ASPNETCORE_ENVIRONMENT: Development
-      ASPNETCORE_URLS: https://+:443;http://+:80
     image: employeecrudservice
     networks:
       default: null
     ports:
     - mode: ingress
       target: 80
+      published: "5100"
       protocol: tcp
     - mode: ingress
       target: 443
+      published: "5101"
       protocol: tcp
-    volumes:
-    - type: bind
-      source: C:\Users\Jaswir Raghoe\AppData\Roaming/Microsoft/UserSecrets
-      target: /root/.microsoft/usersecrets
-      read_only: true
-      bind:
-        create_host_path: true
-    - type: bind
-      source: C:\Users\Jaswir Raghoe\AppData\Roaming/ASP.NET/Https
-      target: /root/.aspnet/https
-      read_only: true
-      bind:
-        create_host_path: true
   login_service:
     build:
       context: C:\Users\Jaswir Raghoe\Documents\Microservices\OfficeWebApp
@@ -39,8 +25,22 @@ services:
       default: null
     ports:
     - mode: ingress
-      target: 443
+      target: 80
       published: "5000"
+      protocol: tcp
+  mssql-login-db:
+    container_name: mssql-login-db
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_PID: Express
+      MSSQL_SA_PASSWORD: Pa$$_w0rd
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    networks:
+      default: null
+    ports:
+    - mode: ingress
+      target: 1433
+      published: "4001"
       protocol: tcp
   sql-server-db2:
     container_name: sql-server-db2
@@ -54,7 +54,7 @@ services:
     ports:
     - mode: ingress
       target: 1433
-      published: "1433"
+      published: "4000"
       protocol: tcp
 networks:
   default:

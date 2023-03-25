@@ -10,7 +10,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<AuthDbContext>(options =>
             options.UseSqlServer(
                 builder.Configuration.
-                GetConnectionString("DefaultConnection")));
+                GetConnectionString("Default")));
 
 builder.Services.AddAuthentication(
     CookieAuthenticationDefaults.AuthenticationScheme)
@@ -23,6 +23,15 @@ builder.Services.AddAuthentication(
 
 
 var app = builder.Build();
+
+//Apply migration at runtime
+//when docker sql server container is running so it receives data
+IApplicationBuilder applicationBuilder = app;
+using (IServiceScope scope = applicationBuilder.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
+{
+    var authDbContext = scope.ServiceProvider.GetService<AuthDbContext>();
+    authDbContext.Database.EnsureCreated();
+}
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

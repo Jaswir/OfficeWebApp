@@ -3,7 +3,7 @@ version: '3.4'
 services:
   employeecrud_service:
     image: employeecrudservice:dev
-    container_name: EmployeeCrud_Service_1
+    container_name: EmployeeCrud_Service
     build:
       target: base
       labels:

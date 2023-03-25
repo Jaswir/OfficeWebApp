@@ -22,7 +22,8 @@
       "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}",
       "publishAllPorts": true,
       "useSSL": true,
-      "sslPort": 4500
+      "httpPort": 5100,
+      "sslPort": 5101
     }
   },
   "iisSettings": {

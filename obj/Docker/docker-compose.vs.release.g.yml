@@ -2,7 +2,7 @@ version: '3.4'
 
 services:
   employeecrud_service:
-    container_name: EmployeeCrud_Service_1
+    container_name: EmployeeCrud_Service
     build:
       labels:
         com.microsoft.created-by: "visual-studio"
