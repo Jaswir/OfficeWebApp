@@ -1,0 +1,177 @@
+name: dockercompose3263040747771482743
+services:
+  employeecrud_service:
+    build:
+      context: C:\Users\Jaswir Raghoe\Documents\Microservices\OfficeWebApp
+      dockerfile: EmployeeCrud_Service/Dockerfile
+      labels:
+        com.microsoft.created-by: visual-studio
+        com.microsoft.visual-studio.project-name: EmployeeCrud_Service
+      target: base
+    container_name: EmployeeCrud_Service
+    depends_on:
+      mssql-employees-db:
+        condition: service_started
+    entrypoint:
+    - tail
+    - -f
+    - /dev/null
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_LOGGING__CONSOLE__DISABLECOLORS: "true"
+      DOTNET_USE_POLLING_FILE_WATCHER: "1"
+      NUGET_FALLBACK_PACKAGES: ""
+    image: employeecrudservice:dev
+    labels:
+      com.microsoft.visualstudio.debuggee.arguments: ' --additionalProbingPath /root/.nuget/packages  "/app/bin/Debug/net6.0/EmployeeCrud_Service.dll"'
+      com.microsoft.visualstudio.debuggee.killprogram: /bin/sh -c "if PID=$$(pidof
+        dotnet); then kill $$PID; fi"
+      com.microsoft.visualstudio.debuggee.program: dotnet
+      com.microsoft.visualstudio.debuggee.workingdirectory: /app
+    networks:
+      default: null
+    ports:
+    - mode: ingress
+      target: 80
+      published: "5100"
+      protocol: tcp
+    - mode: ingress
+      target: 443
+      published: "5101"
+      protocol: tcp
+    tty: true
+    volumes:
+    - type: bind
+      source: C:\Users\Jaswir Raghoe\Documents\Microservices\OfficeWebApp\EmployeeCrud_Service
+      target: /app
+      bind:
+        create_host_path: true
+    - type: bind
+      source: C:\Users\Jaswir Raghoe\Documents\Microservices\OfficeWebApp
+      target: /src
+      bind:
+        create_host_path: true
+    - type: bind
+      source: C:\Users\Jaswir Raghoe\vsdbg\vs2017u5
+      target: /remote_debugger
+      bind:
+        create_host_path: true
+    - type: bind
+      source: C:\Users\Jaswir Raghoe\.nuget\packages\
+      target: /root/.nuget/packages
+      read_only: true
+      bind:
+        create_host_path: true
+    - type: bind
+      source: C:\Users\Jaswir Raghoe\AppData\Roaming/ASP.NET/Https
+      target: /root/.aspnet/https
+      read_only: true
+      bind:
+        create_host_path: true
+    - type: bind
+      source: C:\Users\Jaswir Raghoe\AppData\Roaming/Microsoft/UserSecrets
+      target: /root/.microsoft/usersecrets
+      read_only: true
+      bind:
+        create_host_path: true
+  login_service:
+    build:
+      context: C:\Users\Jaswir Raghoe\Documents\Microservices\OfficeWebApp
+      dockerfile: Login_Service/Dockerfile
+      labels:
+        com.microsoft.created-by: visual-studio
+        com.microsoft.visual-studio.project-name: Login_Service
+      target: base
+    container_name: Login_Service
+    depends_on:
+      mssql-login-db:
+        condition: service_started
+    entrypoint:
+    - tail
+    - -f
+    - /dev/null
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_LOGGING__CONSOLE__DISABLECOLORS: "true"
+      DOTNET_USE_POLLING_FILE_WATCHER: "1"
+      NUGET_FALLBACK_PACKAGES: ""
+    image: loginservice:dev
+    labels:
+      com.microsoft.visualstudio.debuggee.arguments: ' --additionalProbingPath /root/.nuget/packages  "/app/bin/Debug/net6.0/Login_Service.dll"'
+      com.microsoft.visualstudio.debuggee.killprogram: /bin/sh -c "if PID=$$(pidof
+        dotnet); then kill $$PID; fi"
+      com.microsoft.visualstudio.debuggee.program: dotnet
+      com.microsoft.visualstudio.debuggee.workingdirectory: /app
+    networks:
+      default: null
+    ports:
+    - mode: ingress
+      target: 80
+      published: "5000"
+      protocol: tcp
+    tty: true
+    volumes:
+    - type: bind
+      source: C:\Users\Jaswir Raghoe\Documents\Microservices\OfficeWebApp\Login_Service
+      target: /app
+      bind:
+        create_host_path: true
+    - type: bind
+      source: C:\Users\Jaswir Raghoe\Documents\Microservices\OfficeWebApp
+      target: /src
+      bind:
+        create_host_path: true
+    - type: bind
+      source: C:\Users\Jaswir Raghoe\vsdbg\vs2017u5
+      target: /remote_debugger
+      bind:
+        create_host_path: true
+    - type: bind
+      source: C:\Users\Jaswir Raghoe\.nuget\packages\
+      target: /root/.nuget/packages
+      read_only: true
+      bind:
+        create_host_path: true
+    - type: bind
+      source: C:\Users\Jaswir Raghoe\AppData\Roaming/ASP.NET/Https
+      target: /root/.aspnet/https
+      read_only: true
+      bind:
+        create_host_path: true
+    - type: bind
+      source: C:\Users\Jaswir Raghoe\AppData\Roaming/Microsoft/UserSecrets
+      target: /root/.microsoft/usersecrets
+      read_only: true
+      bind:
+        create_host_path: true
+  mssql-employees-db:
+    container_name: mssql-employees-db
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_PID: Express
+      MSSQL_SA_PASSWORD: Pa$$_w0rd
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    networks:
+      default: null
+    ports:
+    - mode: ingress
+      target: 1433
+      published: "4000"
+      protocol: tcp
+  mssql-login-db:
+    container_name: mssql-login-db
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_PID: Express
+      MSSQL_SA_PASSWORD: Pa$$_w0rd
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    networks:
+      default: null
+    ports:
+    - mode: ingress
+      target: 1433
+      published: "4001"
+      protocol: tcp
+networks:
+  default:
+    name: dockercompose3263040747771482743_default

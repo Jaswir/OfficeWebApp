@@ -1,0 +1,11 @@
+version: '3.4'
+
+services:
+
+  employeecrud_service:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+
+  login_service:
+     environment:
+      - ASPNETCORE_ENVIRONMENT=Development
