@@ -30,8 +30,8 @@ namespace Login_Service.Controllers
             ClaimsPrincipal claimUser = HttpContext.User;
             if (claimUser.Identity.IsAuthenticated)
             {
-                //return RedirectToAction("Index", "Home");
-                return Redirect("http://localhost:5100/Home/Index");
+                return RedirectToAction("Index", "Home");
+                //return Redirect("http://localhost:5100/Home/Index");
             }
 
 
@@ -66,8 +66,8 @@ namespace Login_Service.Controllers
             await ApplicationDbContext.SaveChangesAsync();
             await LoginUser(modelRegister.Username, modelRegister.Password);
 
-            return Redirect("http://localhost:5100/Home/Index");
-            //return RedirectToAction("Index", "Home");
+            //return Redirect("http://localhost:5100/Home/Index");
+            return RedirectToAction("Index", "Home");
         }
 
 
@@ -82,8 +82,8 @@ namespace Login_Service.Controllers
             {
                 await LoginUser(modelLogin.Username, modelLogin.Password, modelLogin.KeepLoggedIn);
 
-                return Redirect("http://localhost:5100/");
-                //return RedirectToAction("Index", "Home");
+                //return Redirect("http://localhost:5100/");
+                return RedirectToAction("Index", "Home");
             }
 
             ViewData["ValidateMessage"] = "user not found";

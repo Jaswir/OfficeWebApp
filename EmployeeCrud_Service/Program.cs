@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using EmployeeCrud_Service.Data;
+using EmployeeCrud_Service.Models.Domain;
+using System.ComponentModel.DataAnnotations;
 
 namespace EmployeeCrud_Service
 {
@@ -26,6 +28,8 @@ namespace EmployeeCrud_Service
             {
                 var applicationDbContext = scope.ServiceProvider.GetService<ApplicationDbContext>();
                 applicationDbContext.Database.EnsureCreated();
+                Seeder seeder = new Seeder();
+                seeder.Seed_Employees(applicationDbContext);
             }
 
             // Configure the HTTP request pipeline.
