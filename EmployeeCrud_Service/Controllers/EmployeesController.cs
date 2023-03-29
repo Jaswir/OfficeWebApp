@@ -54,6 +54,8 @@ namespace EmployeeCrud_Service.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(Guid id)
         {
+
+            //Database async doen goed , want de database kan langzaam zijn en dan is niet foreground thread daarmee geblokkeerd.
             var employee = await ApplicationDbContext.Employees.FirstOrDefaultAsync(x => x.Id == id);
 
             if (employee == null) return RedirectToAction("Index");
@@ -68,7 +70,8 @@ namespace EmployeeCrud_Service.Controllers
                 DateOfBirth = employee.DateOfBirth,
             };
 
-            return await Task.Run(() => View("Edit", viewModel));
+            //Nieuwe background thread, wacht totdat die klaar is en dan return je het. 
+            return View("Edit", viewModel);
         }
 
         [HttpPost]

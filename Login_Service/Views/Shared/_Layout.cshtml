@@ -30,7 +30,7 @@
                         @if (ViewBag.Authenticated != null)
                         {
                             <li class="nav-item">
-                                Hiya! @ViewBag.User 
+                                <div class="nav-link text-dark">Hiya! @ViewBag.User</div>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="SignOut">Sign Out</a>
