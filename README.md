@@ -1,11 +1,7 @@
 # Office Web App
 
 ### Description
-Backend portfolio project that displays all my backend experience in just 1 project:
-
-* Authentication and Authorization
-* CRUD / REST API
-* Microservices
+Backend portfolio project that displays my experience with Microservices.
 
 ## Getting Started
 
